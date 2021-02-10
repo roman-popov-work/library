@@ -1,15 +1,24 @@
 import React from 'react';
 import { Layout } from 'antd';
+import { Switch, Route } from 'react-router-dom';
 import { Header } from '../Header/Header';
 import { Content } from '../Content/Content';
-import { List } from '../List/List';
+import { ListPage } from '../ListPage/ListPage';
+import { AddBookPage } from '../AddBookPage/AddBookPage';
 import './App.scss';
 
 export const App = () => (
   <Layout>
     <Header />
     <Content>
-      <List />
+      <Switch>
+        <Route exact path="/">
+          <ListPage />
+        </Route>
+        <Route path="/add">
+          <AddBookPage />
+        </Route>
+      </Switch>
     </Content>
   </Layout>
 );
