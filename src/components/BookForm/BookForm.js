@@ -37,7 +37,6 @@ export const BookForm = () => {
     }
 
     if (isJpgOrPng && isLt2M) {
-      console.log('here');
       getBase64(file, (url) => {
         setImageUrl(url);
       });
@@ -104,7 +103,6 @@ export const BookForm = () => {
           <Form.Item
             label="Год публикации"
             name="publicationYear"
-            rules={validationRules.publicationYear}
           >
             <DatePicker
               picker="year"
@@ -118,7 +116,6 @@ export const BookForm = () => {
           <Form.Item
             label="Дата выхода в тираж"
             name="releaseDate"
-            rules={validationRules.releaseDate}
           >
             <DatePicker
               placeholder="Выберите дату"
