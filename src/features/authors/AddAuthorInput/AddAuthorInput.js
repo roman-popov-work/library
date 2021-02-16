@@ -1,16 +1,20 @@
 import React, { useState, useCallback } from 'react';
 import { Modal, Button } from 'antd';
+import { useDispatch } from 'react-redux';
 import { AuthorForm } from '../AuthorForm/AuthorForm';
+import { saveAuthor } from '../authorsSlice';
 import styles from './AddAuthorInput.module.scss';
 
 export const AddAuthorInput = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const dispatch = useDispatch();
 
   const showModal = () => {
     setIsModalVisible(true);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = ({ firstName, lastName }) => {
+    dispatch(saveAuthor(firstName, lastName));
     setIsModalVisible(false);
   };
 

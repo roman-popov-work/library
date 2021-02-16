@@ -1,8 +1,9 @@
-import React, { useCallback } from 'react';
 import {
   Form, Input, Button,
 } from 'antd';
+import React, { useCallback } from 'react';
 import { firstNameRules, lastNameRules } from './validationRules';
+import styles from './AuthorForm.module.scss';
 
 export const AuthorForm = ({ handleCancel, handleSubmit }) => {
   const onCancel = useCallback(() => {
@@ -11,7 +12,7 @@ export const AuthorForm = ({ handleCancel, handleSubmit }) => {
 
   const onFinish = (values) => {
     console.log('Success:', values);
-    handleSubmit();
+    handleSubmit(values);
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -39,9 +40,9 @@ export const AuthorForm = ({ handleCancel, handleSubmit }) => {
       >
         <Input />
       </Form.Item>
-      <Form.Item>
+      <Form.Item className={styles.lastFormItem}>
         <Button onClick={onCancel}>Отмена</Button>
-        <Button type="primary" htmlType="submit">Добавить автора</Button>
+        <Button type="primary" htmlType="submit" className={styles.submitButton}>Добавить автора</Button>
       </Form.Item>
     </Form>
   );

@@ -4,17 +4,16 @@ import {
 } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import moment from 'moment';
-import { AddAuthorInput } from '../AddAuthorInput/AddAuthorInput';
+import { AddAuthorInput } from '../../features/authors/AddAuthorInput/AddAuthorInput';
 import { validationRules } from './validationRules';
 import { getBase64 } from '../../utils/getBase64';
 import styles from './BookForm.module.scss';
 
-const { Option } = Select;
 const { Dragger } = Upload;
 
 const initialValues = {};
 
-export const BookForm = () => {
+export const BookForm = ({ authorsOptions }) => {
   const [imageUrl, setImageUrl] = useState();
 
   const onFinish = (values) => {
@@ -71,10 +70,8 @@ export const BookForm = () => {
               mode="multiple"
               placeholder="Выберите автора"
               onChange={() => {}}
-            >
-              <Option value="01">Федор Достаевский</Option>
-              <Option value="02">Александр Блок</Option>
-            </Select>
+              options={authorsOptions}
+            />
           </Form.Item>
         </Col>
         <Col span={8}>
