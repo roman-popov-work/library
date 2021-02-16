@@ -8,7 +8,7 @@ const booksStorage = store.namespace('books');
 const initialState = {
   booksList: [],
   currentPageBooks: [],
-  pageCount: 0,
+  total: 0,
   pageSize: 2,
   currentPage: 1,
   sortOrder: 'title',
@@ -19,19 +19,28 @@ const booksSlice = createSlice({
   initialState,
   reducers: {
     addBook(state, action) {
-      console.log('action.payload.book', action.payload.book);
-      console.log('state.sortOrder', state.sortOrder);
-      // eslint-disable-next-line no-param-reassign
+      /* eslint-disable no-param-reassign */
       state.booksList = [...state.booksList, action.payload.book].sort(sortBy(state.sortOrder));
+      state.total = state.booksList.length;
+      state.currentPage = 1;
+      /* eslint-enable */
     },
     changeSortOrder(state, action) {
-      // eslint-disable-next-line no-param-reassign
+      /* eslint-disable no-param-reassign */
       state.sortOrder = action.payload.sortOrder;
+      state.booksList = [...state.booksList].sort(sortBy(state.sortOrder));
+      state.currentPage = 1;
+      /* eslint-enable */
+    },
+    changePage(state, action) {
+      /* eslint-disable no-param-reassign */
+      state.currentPage = action.payload.page;
+      /* eslint-enable */
     },
   },
 });
 
-export const { addBook, changeSortOrder } = booksSlice.actions;
+export const { addBook, changeSortOrder, changePage } = booksSlice.actions;
 
 export default booksSlice.reducer;
 

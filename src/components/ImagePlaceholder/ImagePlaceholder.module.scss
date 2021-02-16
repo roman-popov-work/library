@@ -1,5 +1,5 @@
 .wrapper {
-  background-color: #628fb8;
+  background-color: #fff;
   height: 100%;
   display: flex;
   align-items: center;
@@ -9,12 +9,12 @@
 
 .icon {
   font-size: 36px;
-  color: #fff !important;
+  color: rgba(0, 0, 0, 0.45) !important;
 }
 
 .text {
   font-size: 12px;
   text-transform: uppercase;
-  color: #fff;
+  color: rgba(0, 0, 0, 0.45);
   margin-top: 15px;
 }

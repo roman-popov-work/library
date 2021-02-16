@@ -11,7 +11,6 @@ export const AuthorForm = ({ handleCancel, handleSubmit }) => {
   }, [handleCancel]);
 
   const onFinish = (values) => {
-    console.log('Success:', values);
     handleSubmit(values);
   };
 

@@ -4,9 +4,9 @@ export const sortBy = (sortOrder = ASC) => (a, b) => {
   if (sortOrder === ASC) {
     return a - b;
   }
-  console.log(a, b, sortOrder);
-  const first = a[sortOrder].toLowerCase();
-  const second = b[sortOrder].toLowerCase();
+
+  const first = a[sortOrder];
+  const second = b[sortOrder];
   if (first < second) {
     return -1;
   }
