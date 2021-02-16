@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { rootReducer } from './rootReducer';
-import { getAuthorsFromStorage } from './utils/getAuthorsFromStorage';
+import { getAuthorsStateFromStorage } from './utils/getAuthorsStateFromStorage';
+import { getBooksStateFromStorage } from './utils/getBooksStateFromStorage';
 
 const preloadedState = {
-  authors: getAuthorsFromStorage(),
+  authors: getAuthorsStateFromStorage(),
+  books: getBooksStateFromStorage(),
 };
 
 export const store = configureStore({

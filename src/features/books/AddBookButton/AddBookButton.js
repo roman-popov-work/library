@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Button } from 'antd';
 
-export const AddButton = () => {
+export const AddBookButton = () => {
   const history = useHistory();
 
   const handleClick = useCallback(() => {

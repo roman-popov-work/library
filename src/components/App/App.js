@@ -3,8 +3,8 @@ import { Layout } from 'antd';
 import { Switch, Route } from 'react-router-dom';
 import { Header } from '../Header/Header';
 import { Content } from '../Content/Content';
-import { ListPage } from '../ListPage/ListPage';
-import { AddBookPage } from '../AddBookPage/AddBookPage';
+import { BooksListPage } from '../../features/books/BooksListPage/BooksListPage';
+import { AddBookPage } from '../../features/books/AddBookPage/AddBookPage';
 import './App.scss';
 
 export const App = () => (
@@ -13,7 +13,7 @@ export const App = () => (
     <Content>
       <Switch>
         <Route exact path="/">
-          <ListPage />
+          <BooksListPage />
         </Route>
         <Route path="/add">
           <AddBookPage />

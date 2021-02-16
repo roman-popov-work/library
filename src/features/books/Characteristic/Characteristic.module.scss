@@ -1,0 +1,26 @@
+.wrapper {
+  display: flex;
+
+  & + & {
+    margin-top: 15px;
+  }
+}
+
+.label {
+  width: 50%;
+  position: relative;
+
+  &:before {
+    content: '';
+    display: block;
+    left: 0;
+    bottom: 0.2em;
+    position: absolute;
+    width: 100%;
+    border-bottom: 1px dotted #d6dbe0;
+  }
+}
+
+.value {
+  width: 50%;
+}

@@ -4,21 +4,31 @@ import {
 } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import moment from 'moment';
-import { AddAuthorInput } from '../../features/authors/AddAuthorInput/AddAuthorInput';
+import { AddAuthorInput } from '../../authors/AddAuthorInput/AddAuthorInput';
 import { validationRules } from './validationRules';
-import { getBase64 } from '../../utils/getBase64';
+import { getBase64 } from '../../../utils/getBase64';
 import styles from './BookForm.module.scss';
 
 const { Dragger } = Upload;
 
 const initialValues = {};
 
-export const BookForm = ({ authorsOptions }) => {
+export const BookForm = ({ authorsOptions, onSubmit }) => {
   const [imageUrl, setImageUrl] = useState();
 
   const onFinish = (values) => {
-    console.log('Success:', values);
-    console.log('imageUrl', imageUrl);
+    const authorList = authorsOptions
+      .filter((author) => values.authorList.includes(author.value))
+      .map((option) => ({
+        id: option.value,
+        name: option.label,
+      }));
+
+    onSubmit({
+      ...values,
+      authorList,
+      bookImage: imageUrl,
+    });
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -69,7 +79,6 @@ export const BookForm = ({ authorsOptions }) => {
             <Select
               mode="multiple"
               placeholder="Выберите автора"
-              onChange={() => {}}
               options={authorsOptions}
             />
           </Form.Item>
