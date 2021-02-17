@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Typography, notification } from 'antd';
-import { saveBook, saveCurrentPage } from '../booksSlice';
+import { saveBook } from '../booksSlice';
 import { BookForm } from '../BookForm/BookForm';
 import { sortBy } from '../../../utils/sortBy';
 import { serializeBook, deserializeBook } from '../../../utils/serializeBook';
@@ -35,28 +35,40 @@ export const EditBookPage = () => {
     .sort(sortBy(LAST_NAME));
 
   const handleSubmit = (book) => {
-    const bookIsUnique = isBookUnique(book.title, book.authorList, booksMap);
+    const bookIsStillTheSame = (
+      book.title === currentBook.title
+      && book.authorList.every((author) => currentBook.authorList.includes(author))
+    );
+
+    const bookIsUnique = !bookIsStillTheSame
+      ? isBookUnique(book.title, book.authorList, booksMap)
+      : true;
+
     if (bookIsUnique) {
       const serializedBook = serializeBook(book);
       dispatch(saveBook(serializedBook));
-      dispatch(saveCurrentPage(1));
       history.push('/');
       notification.open({
-        message: 'Книга добавлена',
-        description: `Книга "${book.title}" успешно добавлена в список книг`,
+        message: 'Книга отредактирована',
+        description: `В книге "${book.title}" успешно сохранены изменения`,
       });
     } else {
       setSubmitError('Такая книга уже есть в списке');
     }
   };
 
+  const handleCancel = () => {
+    history.push('/');
+  };
+
   return (
     <div className={styles.wrapper}>
       <Title level={2}>Редактирование книги</Title>
       <BookForm
-        initialState={deserializedBook}
+        initialValues={deserializedBook}
         authorsOptions={authorsOptions}
         onSubmit={handleSubmit}
+        onCancel={handleCancel}
         submitError={submitError}
       />
     </div>

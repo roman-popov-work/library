@@ -25,6 +25,14 @@ const booksSlice = createSlice({
       state.total += 1;
       /* eslint-enable */
     },
+    editBook(state, action) {
+      const { book } = action.payload;
+      /* eslint-disable no-param-reassign */
+      state.booksMap[book.id] = book;
+      // eslint-disable-next-line max-len
+      state.currentPageBooks = getCurrentPageBooks(state.currentPage, state.pageSize, state.booksMap, state.sortOrder);
+      /* eslint-enable */
+    },
     changeSortOrder(state, action) {
       /* eslint-disable no-param-reassign */
       state.sortOrder = action.payload.sortOrder;
@@ -51,19 +59,23 @@ const booksSlice = createSlice({
 });
 
 export const {
-  addBook, changeSortOrder, changePage, removeBook,
+  addBook, editBook, changeSortOrder, changePage, removeBook,
 } = booksSlice.actions;
 
 export default booksSlice.reducer;
 
 export const saveBook = (book) => (dispatch) => {
-  const id = v4();
+  const id = book.id || v4();
   const bookObject = {
-    id,
     ...book,
+    id,
   };
   booksStorage(id, bookObject);
-  dispatch(addBook({ book: bookObject }));
+  if (book.id) {
+    dispatch(editBook({ book: bookObject }));
+  } else {
+    dispatch(addBook({ book: bookObject }));
+  }
 };
 
 export const saveSortOrder = (sortOrder) => (dispatch) => {

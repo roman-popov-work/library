@@ -46,10 +46,19 @@ export const AddBookPage = () => {
     }
   };
 
+  const handleCancel = () => {
+    history.push('/');
+  };
+
   return (
     <div className={styles.wrapper}>
       <Title level={2}>Добавление книги</Title>
-      <BookForm authorsOptions={authorsOptions} onSubmit={handleSubmit} submitError={submitError} />
+      <BookForm
+        authorsOptions={authorsOptions}
+        onSubmit={handleSubmit}
+        onCancel={handleCancel}
+        submitError={submitError}
+      />
     </div>
   );
 };

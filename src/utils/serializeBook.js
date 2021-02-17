@@ -8,6 +8,6 @@ export const serializeBook = (book) => ({
 
 export const deserializeBook = (book) => ({
   ...book,
-  publicationYear: book.publicationYear ? moment.parse(book.publicationYear, 'YYYY') : undefined,
-  releaseDate: book.releaseDate ? moment.parse(book.releaseDate, 'DD.MM.YYYY') : undefined,
+  publicationYear: book.publicationYear ? moment(book.publicationYear, 'YYYY') : undefined,
+  releaseDate: book.releaseDate ? moment(book.releaseDate, 'DD.MM.YYYY') : undefined,
 });

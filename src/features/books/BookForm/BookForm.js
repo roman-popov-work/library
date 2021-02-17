@@ -12,21 +12,27 @@ import styles from './BookForm.module.scss';
 const { Dragger } = Upload;
 const { Text } = Typography;
 
-const initialValues = {};
-
-export const BookForm = ({ authorsOptions, onSubmit, submitError }) => {
-  const [imageUrl, setImageUrl] = useState();
+export const BookForm = ({
+  initialValues = {}, authorsOptions, onSubmit, onCancel, submitError,
+}) => {
+  const isEditForm = !!initialValues.id;
+  const [imageUrl, setImageUrl] = useState(initialValues.bookImage || undefined);
 
   const onFinish = (values) => {
     onSubmit({
       ...values,
       title: values.title.trim(),
       bookImage: imageUrl,
+      id: isEditForm ? initialValues.id : undefined,
     });
   };
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
+  };
+
+  const handleCancel = () => {
+    onCancel();
   };
 
   const beforeUpload = (file) => {
@@ -158,8 +164,9 @@ export const BookForm = ({ authorsOptions, onSubmit, submitError }) => {
 
       <Form.Item>
         <Button type="primary" htmlType="submit">
-          Добавить книгу
+          {isEditForm ? 'Редактировать книгу' : 'Добавить книгу'}
         </Button>
+        <Button className={styles.cancel} onClick={handleCancel}>Отмена</Button>
       </Form.Item>
       {submitError && <Text className={styles.submitError} type="danger">{submitError}</Text>}
     </Form>
