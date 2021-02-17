@@ -17,16 +17,8 @@ export const BookForm = ({ authorsOptions, onSubmit }) => {
   const [imageUrl, setImageUrl] = useState();
 
   const onFinish = (values) => {
-    const authorList = authorsOptions
-      .filter((author) => values.authorList.includes(author.value))
-      .map((option) => ({
-        id: option.value,
-        name: option.label,
-      }));
-
     onSubmit({
       ...values,
-      authorList,
       bookImage: imageUrl,
     });
   };

@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import { Row, Col, Pagination } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { BooksList } from '../BooksList/BooksList';
@@ -10,6 +11,14 @@ export const BooksListPage = () => {
   const {
     booksList, sortOrder, currentPage, total, pageSize,
   } = useSelector((state) => state.books);
+  const authors = useSelector((state) => state.authors);
+  const books = booksList.map((book) => {
+    const authorList = book.authorList.map((id) => authors[id]);
+    return {
+      ...book,
+      authorList,
+    };
+  });
   const dispatch = useDispatch();
 
   const handleSetSortOrder = useCallback((e) => {
@@ -19,6 +28,15 @@ export const BooksListPage = () => {
   const handlePageChange = useCallback((page) => {
     dispatch(changePage({ page }));
   }, [dispatch]);
+
+  if (!books.length) {
+    return (
+      <div className={styles.noItems}>
+        Здесь пока нет книг.
+        <Link className={styles.addLink} to="/add">добавить?</Link>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -40,7 +58,7 @@ export const BooksListPage = () => {
         </Row>
       </div>
       <div className={styles.content}>
-        <BooksList books={booksList} />
+        <BooksList books={books} />
       </div>
       <div className={styles.footer}>
         <div className={styles.flexEnd}>

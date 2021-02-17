@@ -16,12 +16,16 @@ export const AddBookPage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const authorsOptions = [...authors]
-    .sort(sortBy(LAST_NAME))
-    .map(({ id, firstName, lastName }) => ({
-      value: id,
-      label: `${firstName} ${lastName}`,
-    }));
+  const authorsOptions = Object.keys(authors)
+    .map((id) => {
+      const { firstName, lastName } = authors[id];
+      return {
+        value: id,
+        label: `${firstName} ${lastName}`,
+        lastName,
+      };
+    })
+    .sort(sortBy(LAST_NAME)); // sort by lastName of author
 
   const handleSubmit = (values) => {
     const serializedBook = serializeBook(values);

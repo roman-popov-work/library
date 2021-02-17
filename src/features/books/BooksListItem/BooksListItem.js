@@ -25,7 +25,7 @@ export const BooksListItem = ({ book }) => {
           <div className={styles.dataWrapper}>
             <Title level={3}>{title}</Title>
             <Text type="secondary">Авторы: </Text>
-            <Text>{authorList.map((author) => author.name).join(', ')}</Text>
+            <Text>{authorList.map(({ firstName, lastName }) => `${firstName} ${lastName}`).join(', ')}</Text>
             <div className={styles.characteristicsWrapper}>
               <Row gutter={30}>
                 <Col span={12}>

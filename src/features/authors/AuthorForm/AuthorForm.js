@@ -1,17 +1,22 @@
 import {
-  Form, Input, Button,
+  Form, Input, Button, Typography,
 } from 'antd';
 import React, { useCallback } from 'react';
 import { firstNameRules, lastNameRules } from './validationRules';
 import styles from './AuthorForm.module.scss';
 
-export const AuthorForm = ({ handleCancel, handleSubmit }) => {
+const { Text } = Typography;
+
+export const AuthorForm = ({ handleCancel, handleSubmit, submitError }) => {
   const onCancel = useCallback(() => {
     handleCancel();
   }, [handleCancel]);
 
   const onFinish = (values) => {
-    handleSubmit(values);
+    handleSubmit({
+      firstName: values.firstName.trim(),
+      lastName: values.lastName.trim(),
+    });
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -43,6 +48,7 @@ export const AuthorForm = ({ handleCancel, handleSubmit }) => {
         <Button onClick={onCancel}>Отмена</Button>
         <Button type="primary" htmlType="submit" className={styles.submitButton}>Добавить автора</Button>
       </Form.Item>
+      {submitError && <Text className={styles.submitError} type="danger">{submitError}</Text>}
     </Form>
   );
 };

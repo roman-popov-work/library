@@ -6,10 +6,14 @@ const authorsStorage = store.namespace('authors');
 
 const authorsSlice = createSlice({
   name: 'authors',
-  initialState: [],
+  initialState: {},
   reducers: {
     addAuthor(state, action) {
-      state.push(action.payload);
+      const { author } = action.payload;
+      console.log('author', author);
+      /* eslint-disable no-param-reassign */
+      state[author.id] = author;
+      /* eslint-enable */
     },
   },
 });
@@ -20,11 +24,11 @@ export default authorsSlice.reducer;
 
 export const saveAuthor = (firstName, lastName) => (dispatch) => {
   const id = v4();
-  const authorObject = {
+  const author = {
     id,
     firstName,
     lastName,
   };
-  authorsStorage(id, authorObject);
-  dispatch(addAuthor(authorObject));
+  authorsStorage(id, author);
+  dispatch(addAuthor({ author }));
 };

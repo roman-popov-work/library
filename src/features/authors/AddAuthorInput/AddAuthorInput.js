@@ -1,12 +1,15 @@
 import React, { useState, useCallback } from 'react';
-import { Modal, Button } from 'antd';
-import { useDispatch } from 'react-redux';
+import { Modal, Button, notification } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
 import { AuthorForm } from '../AuthorForm/AuthorForm';
 import { saveAuthor } from '../authorsSlice';
+import { isAuthorUnique } from '../../../utils/isAuthorUnique';
 import styles from './AddAuthorInput.module.scss';
 
 export const AddAuthorInput = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+  const authors = useSelector((state) => state.authors);
   const dispatch = useDispatch();
 
   const showModal = () => {
@@ -14,12 +17,23 @@ export const AddAuthorInput = () => {
   };
 
   const handleSubmit = ({ firstName, lastName }) => {
-    dispatch(saveAuthor(firstName, lastName));
-    setIsModalVisible(false);
+    const authorIsUnique = isAuthorUnique(firstName, lastName, authors);
+    if (authorIsUnique) {
+      setSubmitError('');
+      dispatch(saveAuthor(firstName, lastName));
+      setIsModalVisible(false);
+      notification.open({
+        message: 'Автор добавлен',
+        description: `${firstName} ${lastName} успешно добавлен(а) в список авторов`,
+      });
+    } else {
+      setSubmitError('Такой автор уже есть в списке');
+    }
   };
 
   const handleCancel = useCallback(() => {
     setIsModalVisible(false);
+    setSubmitError('');
   }, []);
 
   return (
@@ -34,7 +48,11 @@ export const AddAuthorInput = () => {
         onCancel={handleCancel}
         destroyOnClose
       >
-        <AuthorForm handleSubmit={handleSubmit} handleCancel={handleCancel} />
+        <AuthorForm
+          handleSubmit={handleSubmit}
+          handleCancel={handleCancel}
+          submitError={submitError}
+        />
       </Modal>
     </>
   );

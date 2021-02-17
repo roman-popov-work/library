@@ -18,3 +18,16 @@
   display: flex;
   justify-content: flex-end;
 }
+
+.noItems {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+  font-size: 20px;
+  text-transform: uppercase;
+}
+
+.addLink {
+  margin-left: 4px;
+}
