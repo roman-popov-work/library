@@ -5,7 +5,7 @@ const booksStorage = store.namespace('books');
 
 export const getBooksStateFromStorage = () => {
   const booksMap = booksStorage.getAll() || {};
-  const pageSize = 2;
+  const pageSize = 10;
   const sortOrder = store('booksListSortOrder') || 'title';
   const currentPage = store('booksListCurrentPage') || 1;
 

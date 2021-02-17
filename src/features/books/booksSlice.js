@@ -9,7 +9,7 @@ const initialState = {
   booksMap: {},
   currentPageBooks: [],
   total: 0,
-  pageSize: 2,
+  pageSize: 10,
   currentPage: 1,
   sortOrder: 'title',
 };

@@ -5,6 +5,7 @@ import {
 import { InboxOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { AddAuthorInput } from '../../authors/AddAuthorInput/AddAuthorInput';
+import { BookImage } from '../BookImage/BookImage';
 import { validationRules } from './validationRules';
 import { getBase64 } from '../../../utils/getBase64';
 import styles from './BookForm.module.scss';
@@ -33,6 +34,10 @@ export const BookForm = ({
 
   const handleCancel = () => {
     onCancel();
+  };
+
+  const handleDeleteImage = () => {
+    setImageUrl(undefined);
   };
 
   const beforeUpload = (file) => {
@@ -145,21 +150,39 @@ export const BookForm = ({
       </Form.Item>
 
       <Form.Item>
-        <Dragger
-          name="imageUrl"
-          accept="image/png, image/jpeg"
-          multiple={false}
-          beforeUpload={beforeUpload}
-          customRequest={() => {}}
-        >
-          <p className="ant-upload-drag-icon">
-            <InboxOutlined />
-          </p>
-          <p className="ant-upload-text">Для загрузки изображения нажмите или перетащите файл в эту зону</p>
-          <p className="ant-upload-hint">
-            Загрузить можно только один файл не больше 2Мб. Доступные расширения: JPEG, PNG
-          </p>
-        </Dragger>
+        {
+          imageUrl
+            ? (
+              <div>
+                <div className={styles.uploadedImage}>
+                  <BookImage url={imageUrl} />
+                </div>
+                <Button
+                  className={styles.deleteImageButton}
+                  onClick={handleDeleteImage}
+                >
+                  Удалить изображение
+                </Button>
+              </div>
+            )
+            : (
+              <Dragger
+                name="imageUrl"
+                accept="image/png, image/jpeg"
+                multiple={false}
+                beforeUpload={beforeUpload}
+                customRequest={() => {}}
+              >
+                <p className="ant-upload-drag-icon">
+                  <InboxOutlined />
+                </p>
+                <p className="ant-upload-text">Для загрузки изображения нажмите или перетащите файл в эту зону</p>
+                <p className="ant-upload-hint">
+                  Загрузить можно только один файл не больше 2Мб. Доступные расширения: JPEG, PNG
+                </p>
+              </Dragger>
+            )
+        }
       </Form.Item>
 
       <Form.Item>
