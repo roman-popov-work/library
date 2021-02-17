@@ -1,4 +1,4 @@
-export const isAuthorUnique = (firstName, lastName, authors = []) => {
+export const isAuthorUnique = (firstName, lastName, authors = {}) => {
   if (!firstName || !lastName) {
     return false;
   }

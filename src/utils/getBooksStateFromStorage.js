@@ -1,22 +1,21 @@
 import store from 'store2';
-import { sortBy } from './sortBy';
+import { getCurrentPageBooks } from './getCurrentPageBooks';
 
 const booksStorage = store.namespace('books');
 
 export const getBooksStateFromStorage = () => {
-  const authorsObject = booksStorage.getAll() || [];
-
+  const booksMap = booksStorage.getAll() || {};
   const pageSize = 2;
-  const sortOrder = store('booksSortOrder') || 'title';
-  const booksList = Object.keys(authorsObject)
-    .map((key) => authorsObject[key])
-    .sort(sortBy(sortOrder));
+  const sortOrder = store('booksListSortOrder') || 'title';
+  const currentPage = store('booksListCurrentPage') || 1;
+
+  const booksList = Object.keys(booksMap).map((id) => booksMap[id]);
   const total = booksList.length;
-  const currentPage = 1;
+  const currentPageBooks = getCurrentPageBooks(currentPage, pageSize, booksMap, sortOrder);
 
   return {
-    booksList,
-    currentPageBooks: [],
+    booksMap,
+    currentPageBooks,
     total,
     pageSize,
     currentPage,

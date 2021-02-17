@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import store from 'store2';
 import { v4 } from 'uuid';
-import { sortBy } from '../../utils/sortBy';
+import { getCurrentPageBooks } from '../../utils/getCurrentPageBooks';
 
 const booksStorage = store.namespace('books');
 
 const initialState = {
-  booksList: [],
+  booksMap: {},
   currentPageBooks: [],
   total: 0,
   pageSize: 2,
@@ -19,22 +19,24 @@ const booksSlice = createSlice({
   initialState,
   reducers: {
     addBook(state, action) {
+      const { book } = action.payload;
+      console.log('state.booksMap', state.booksMap);
       /* eslint-disable no-param-reassign */
-      state.booksList = [...state.booksList, action.payload.book].sort(sortBy(state.sortOrder));
-      state.total = state.booksList.length;
-      state.currentPage = 1;
+      state.booksMap[book.id] = book;
+      state.total += 1;
       /* eslint-enable */
     },
     changeSortOrder(state, action) {
       /* eslint-disable no-param-reassign */
       state.sortOrder = action.payload.sortOrder;
-      state.booksList = [...state.booksList].sort(sortBy(state.sortOrder));
-      state.currentPage = 1;
       /* eslint-enable */
     },
     changePage(state, action) {
       /* eslint-disable no-param-reassign */
-      state.currentPage = action.payload.page;
+      const { page } = action.payload;
+      state.currentPage = page;
+      // eslint-disable-next-line max-len
+      state.currentPageBooks = getCurrentPageBooks(page, state.pageSize, state.booksMap, state.sortOrder);
       /* eslint-enable */
     },
   },
@@ -55,6 +57,11 @@ export const saveBook = (book) => (dispatch) => {
 };
 
 export const saveSortOrder = (sortOrder) => (dispatch) => {
-  store('booksSortOrder', sortOrder);
+  store('booksListSortOrder', sortOrder);
   dispatch(changeSortOrder({ sortOrder }));
+};
+
+export const saveCurrentPage = (page) => (dispatch) => {
+  store('booksListCurrentPage', page);
+  dispatch(changePage({ page }));
 };

@@ -17,7 +17,11 @@ export const BooksListItem = ({ book }) => {
         <Col span={5}>
           {
             bookImage
-              ? <BookImage url={bookImage} />
+              ? (
+                <div className={styles.imageWrapper}>
+                  <BookImage url={bookImage} />
+                </div>
+              )
               : <ImagePlaceholder />
           }
         </Col>
@@ -30,12 +34,12 @@ export const BooksListItem = ({ book }) => {
               <Row gutter={30}>
                 <Col span={12}>
                   <Characteristic label="Количество страниц" value={numberOfPages} />
-                  <Characteristic label="Год публикации" value={publicationYear} />
-                  <Characteristic label="Дата выхода в тираж" value={releaseDate} />
+                  <Characteristic label="Год публикации" value={publicationYear || '—'} />
+                  <Characteristic label="Дата выхода в тираж" value={releaseDate || '—'} />
                 </Col>
                 <Col span={12}>
-                  <Characteristic label="ISBN" value={book.isbn} />
-                  <Characteristic label="Название издательства" value={publisherName} />
+                  <Characteristic label="ISBN" value={book.isbn || '—'} />
+                  <Characteristic label="Название издательства" value={publisherName || '—'} />
                 </Col>
               </Row>
             </div>

@@ -10,7 +10,6 @@ const authorsSlice = createSlice({
   reducers: {
     addAuthor(state, action) {
       const { author } = action.payload;
-      console.log('author', author);
       /* eslint-disable no-param-reassign */
       state[author.id] = author;
       /* eslint-enable */

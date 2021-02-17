@@ -1,18 +1,18 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Row, Col, Pagination } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { BooksList } from '../BooksList/BooksList';
 import { BooksListSort } from '../BooksListSort/BooksListSort';
-import { saveSortOrder, changePage } from '../booksSlice';
+import { saveSortOrder, saveCurrentPage } from '../booksSlice';
 import styles from './BooksListPage.module.scss';
 
 export const BooksListPage = () => {
   const {
-    booksList, sortOrder, currentPage, total, pageSize,
+    currentPageBooks, sortOrder, currentPage, total, pageSize,
   } = useSelector((state) => state.books);
   const authors = useSelector((state) => state.authors);
-  const books = booksList.map((book) => {
+  const books = currentPageBooks.map((book) => {
     const authorList = book.authorList.map((id) => authors[id]);
     return {
       ...book,
@@ -21,13 +21,14 @@ export const BooksListPage = () => {
   });
   const dispatch = useDispatch();
 
-  const handleSetSortOrder = useCallback((e) => {
+  const handleSetSortOrder = (e) => {
     dispatch(saveSortOrder(e.target.value));
-  }, [dispatch]);
+    dispatch(saveCurrentPage(1));
+  };
 
-  const handlePageChange = useCallback((page) => {
-    dispatch(changePage({ page }));
-  }, [dispatch]);
+  const handlePageChange = (page) => {
+    dispatch(saveCurrentPage(page));
+  };
 
   if (!books.length) {
     return (

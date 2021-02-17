@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Form, Input, Button, Select, Row, Col, DatePicker, Upload, message,
+  Form, Input, Button, Select, Row, Col, DatePicker, Upload, message, Typography,
 } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import moment from 'moment';
@@ -10,15 +10,17 @@ import { getBase64 } from '../../../utils/getBase64';
 import styles from './BookForm.module.scss';
 
 const { Dragger } = Upload;
+const { Text } = Typography;
 
 const initialValues = {};
 
-export const BookForm = ({ authorsOptions, onSubmit }) => {
+export const BookForm = ({ authorsOptions, onSubmit, submitError }) => {
   const [imageUrl, setImageUrl] = useState();
 
   const onFinish = (values) => {
     onSubmit({
       ...values,
+      title: values.title.trim(),
       bookImage: imageUrl,
     });
   };
@@ -71,7 +73,10 @@ export const BookForm = ({ authorsOptions, onSubmit }) => {
             <Select
               mode="multiple"
               placeholder="Выберите автора"
-              options={authorsOptions}
+              options={authorsOptions.map(({ value, label }) => ({
+                value,
+                label,
+              }))}
             />
           </Form.Item>
         </Col>
@@ -156,6 +161,7 @@ export const BookForm = ({ authorsOptions, onSubmit }) => {
           Добавить книгу
         </Button>
       </Form.Item>
+      {submitError && <Text className={styles.submitError} type="danger">{submitError}</Text>}
     </Form>
   );
 };
