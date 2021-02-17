@@ -5,6 +5,7 @@ import { Header } from '../Header/Header';
 import { Content } from '../Content/Content';
 import { BooksListPage } from '../../features/books/BooksListPage/BooksListPage';
 import { AddBookPage } from '../../features/books/AddBookPage/AddBookPage';
+import { EditBookPage } from '../../features/books/EditBookPage/EditBookPage';
 import './App.scss';
 
 export const App = () => (
@@ -17,6 +18,9 @@ export const App = () => (
         </Route>
         <Route path="/add">
           <AddBookPage />
+        </Route>
+        <Route path="/edit/:bookId">
+          <EditBookPage />
         </Route>
       </Switch>
     </Content>
