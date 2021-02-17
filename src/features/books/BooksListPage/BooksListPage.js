@@ -1,15 +1,18 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Row, Col, Pagination } from 'antd';
+import { Link, useHistory } from 'react-router-dom';
+import {
+  Row, Col, Pagination, notification,
+} from 'antd';
+
 import { useDispatch, useSelector } from 'react-redux';
-import { BooksList } from '../BooksList/BooksList';
 import { BooksListSort } from '../BooksListSort/BooksListSort';
-import { saveSortOrder, saveCurrentPage } from '../booksSlice';
+import { BooksListItem } from '../BooksListItem/BooksListItem';
+import { saveSortOrder, saveCurrentPage, deleteBook } from '../booksSlice';
 import styles from './BooksListPage.module.scss';
 
 export const BooksListPage = () => {
   const {
-    currentPageBooks, sortOrder, currentPage, total, pageSize,
+    currentPageBooks, booksMap, sortOrder, currentPage, total, pageSize,
   } = useSelector((state) => state.books);
   const authors = useSelector((state) => state.authors);
   const books = currentPageBooks.map((book) => {
@@ -20,6 +23,7 @@ export const BooksListPage = () => {
     };
   });
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const handleSetSortOrder = (e) => {
     dispatch(saveSortOrder(e.target.value));
@@ -28,6 +32,19 @@ export const BooksListPage = () => {
 
   const handlePageChange = (page) => {
     dispatch(saveCurrentPage(page));
+  };
+
+  const handleBookEdit = (id) => {
+    history.push(`/edit/${id}`);
+  };
+
+  const handleBookDelete = (id) => {
+    const { title } = booksMap[id];
+    dispatch(deleteBook(id));
+    notification.open({
+      message: 'Книга удалена',
+      description: `Книга "${title}" успешно удалена из списка книг`,
+    });
   };
 
   if (!books.length) {
@@ -59,7 +76,16 @@ export const BooksListPage = () => {
         </Row>
       </div>
       <div className={styles.content}>
-        <BooksList books={books} />
+        {
+          books.map((item) => (
+            <BooksListItem
+              key={item.id}
+              book={item}
+              onEditBook={handleBookEdit}
+              onDeleteBook={handleBookDelete}
+            />
+          ))
+        }
       </div>
       <div className={styles.footer}>
         <div className={styles.flexEnd}>

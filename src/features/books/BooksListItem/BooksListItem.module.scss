@@ -2,6 +2,7 @@
   border: 1px solid #d9d9d9;
   background-color: #fff;
   border-radius: 2px;
+  position: relative;
 
   & + & {
     margin-top: 15px;
@@ -19,4 +20,27 @@
 .imageWrapper {
   padding: 15px;
   height: 100%;
+}
+
+.dropdownWrapper {
+  position: absolute;
+  top: 15px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+
+  .moreIcon {
+    display: block;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 24px;
+    transition: color 0.2s ease-in;
+  }
+
+  &:hover .moreIcon {
+    color: #1890ff;
+  }
 }
